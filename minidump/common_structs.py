@@ -1,3 +1,31 @@
+# const DWORD CV_SIGNATURE_RSDS = 0x53445352; // 'SDSR'
+
+# struct CV_INFO_PDB70 {
+#   DWORD      CvSignature;
+#   GUID       Signature;
+#   DWORD      Age;
+#   BYTE       PdbFileName[1];
+# };
+
+import codecs
+
+class CV_INFO_PDB70:
+	def __init__(self):
+		self.PdbName = ""
+		
+	@staticmethod
+	def get_from_rva(rva, size, buff):
+		pos = buff.tell()
+		buff.seek(rva, 0)
+		cv = CV_INFO_PDB70()
+		sig = int.from_bytes(buff.read(4), byteorder = 'little', signed = False)
+		if sig != 0x53445352:
+			return None
+		buff.read(20) # skip signature and age
+		cv.PdbName = codecs.decode(buff.read(size-24), 'ascii').split('\x00',1)[0]
+		buff.seek(pos, 0)
+		return cv
+	
 
 # https://msdn.microsoft.com/en-us/library/windows/desktop/ms680383(v=vs.85).aspx	
 class MINIDUMP_LOCATION_DESCRIPTOR:

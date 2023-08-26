@@ -11,6 +11,7 @@ from minidump.common_structs import *
 
 # https://msdn.microsoft.com/en-us/library/windows/desktop/ms680396(v=vs.85).aspx
 class PROCESSOR_ARCHITECTURE(enum.Enum):
+	ARM64 = 12
 	AMD64 = 9 #x64 (AMD or Intel)
 	ARM = 5 #ARM
 	IA64 = 6 #Intel Itanium

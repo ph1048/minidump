@@ -25,6 +25,7 @@ class MinidumpModule:
 		"""
 		mm = MinidumpModule()
 		mm.baseaddress = mod.BaseOfImage
+		mm.cv = CV_INFO_PDB70.get_from_rva(mod.CvRecord.Rva, mod.CvRecord.DataSize, buff)
 		mm.size = mod.SizeOfImage
 		mm.checksum = mod.CheckSum
 		mm.timestamp = mod.TimeDateStamp
